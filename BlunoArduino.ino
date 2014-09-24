@@ -5,6 +5,7 @@ char array[2];
 String out = "";
 String skin = "";
 String gender = "";
+String uvTime = "";
 
 int UVOUT = A0; //Output from the sensor
 int REF_3V3 = A1; //3.3V power on the Arduino board
@@ -56,6 +57,7 @@ void loop()
       case 1:
         skin = "Fair";
         uvIndex = (outputVoltage - 1)*12.5+0.5;
+        uvTime = "10";
         break;
       case 2:
         skin = "Tanned";
@@ -78,7 +80,10 @@ void loop()
       default:
         break;
     }
-    Serial.print("Skin is "+skin+" Gender is "+gender+" UV Index is "+String(uvIndex)+"\n");
+    Serial.print("Skin is "+skin+" Gender is "+
+    gender+" UV Index is "+String(uvIndex)+
+    " Recommended UV exposure time is "+uvTime+
+    " minutes."+"\n");
     //Serial.print(out);
     //out="";
     //Serial.write(code);    //send what has been received
