@@ -1,4 +1,4 @@
-int code1=0;
+int code1=0; //currently, code1 for skin, code2 for gender
 int code2=0;
 int len = 2;
 char array[2];
@@ -54,6 +54,9 @@ void loop()
     Serial.readBytes(array,len);
     code1 = charToInt(array[0]);
     switch(code1) {
+      //take in code1, ask more switch statements for hair color, eye color and tanning ability
+      //take in age group and gender as well
+      //output recommended spf value and duration
       case 1:
         skin = "Fair";
         uvIndex = (outputVoltage - 1)*12.5+0.5;
