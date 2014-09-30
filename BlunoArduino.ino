@@ -2,13 +2,21 @@ int code1=0; //currently, code1 for skin, code2 for gender
 int code2=0;
 int code3=0;
 int code4=0;
-int len = 4;
-char array[4];
+int code5=0;
+int code6=0;
+int code7=0;
+int code8=0;
+int len = 8;
+char array[8];
 String out = "";
 String skin = "";
 String eye = "";
 String hair = "";
 String frec = "";
+String burn = "";
+String brownFreq = "";
+String brownInt = "";
+String face = "";
 String uvTime = "";
 
 int UVOUT = A0; //Output from the sensor
@@ -58,111 +66,200 @@ void loop()
     Serial.readBytes(array,len);
     code1 = charToInt(array[0]);
     switch(code1) {
-      //take in code1, ask more switch statements for hair color, eye color and tanning ability
-      //take in age group and gender as well
-      //output recommended spf value and duration
       case 1:
-        skin = "Very Fair";
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
-        uvTime = "10";
+        eye = "1";
         break;
       case 2:
-        skin = "Fair";
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
-        uvTime = "10";
+        eye = "2";
         break;
       case 3:
-        skin = "Normal";
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
-        uvTime = "10";
+        eye = "3";
         break;
       case 4:
-        skin = "Tanned";
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
-        uvTime = "10";
+        eye = "4";
         break;
       case 5:
-        skin = "Very Tanned";
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
-        uvTime = "10";
-        break;
-      case 6:
-        skin = "Very Very Tanned";
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
-        uvTime = "10";
+        eye = "5";
         break;
       default:
-        skin = "Nothing";
+        eye = "6";
         break;
     }
     code2 = charToInt(array[1]);
     switch(code2) {
       case 1:
-        eye = "Light blue, gray or green";
+        hair = "1";
         break;
       case 2:
-        eye = "Blue, gray or green";
+        hair = "2";
         break;
       case 3:
-        eye = "Dark blue, gray or green";
+        hair = "3";
         break;
       case 4:
-        eye = "Brown";
+        hair = "4";
         break;
       case 5:
-        eye = "Black";
+        hair = "5";
         break;
       default:
-        eye = "Nothing";
+        hair = "6";
         break;
     }
     code3 = charToInt(array[2]);
     switch(code3) {
+      //take in code1, ask more switch statements for hair color, eye color and tanning ability
+      //take in age group and gender as well
+      //output recommended spf value and duration
       case 1:
-        hair = "Sandy red";
+        skin = "1";
+        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        uvTime = "10";
         break;
       case 2:
-        hair = "Blond";
+        skin = "2";
+        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        uvTime = "10";
         break;
       case 3:
-        hair = "Chestnut or dark blond";
+        skin = "3";
+        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        uvTime = "10";
         break;
       case 4:
-        hair = "Brown";
+        skin = "4";
+        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        uvTime = "10";
         break;
       case 5:
-        hair = "Black";
+        skin = "5";
+        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        uvTime = "10";
+        break;
+      case 6:
+        skin = "6";
+        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        uvTime = "10";
         break;
       default:
-        hair = "Nothing";
+        skin = "99";
         break;
     }
     code4 = charToInt(array[3]);
     switch(code4) {
       case 1:
-        frec = "Many";
+        frec = "1";
         break;
       case 2:
-        frec = "Several";
+        frec = "2";
         break;
       case 3:
-        frec = "Few";
+        frec = "3";
         break;
       case 4:
-        frec = "Rare";
+        frec = "4";
         break;
       case 5:
-        frec = "None";
+        frec = "5";
         break;
       default:
-        frec = "Nothing";
+        frec = "99";
         break;
     }
-    Serial.print("Skin is "+skin+"\nEye is "+
-    eye+"\nHair is "+hair+"\nNumber of freckles is "+
-    frec+"\nUV Index is "+String(uvIndex)+
-    "\nRecommended UV exposure time is "+uvTime+
-    " minutes."+"\n");
+    code5 = charToInt(array[4]);
+    switch(code5) {
+      case 1:
+        burn = "1";
+        break;
+      case 2:
+        burn = "2";
+        break;
+      case 3:
+        burn = "3";
+        break;
+      case 4:
+        burn = "4";
+        break;
+      case 5:
+        burn = "5";
+        break;
+      default:
+        burn = "99";
+        break;
+    }
+    code6 = charToInt(array[5]);
+    switch(code6) {
+      case 1:
+        brownFreq = "1";
+        break;
+      case 2:
+        brownFreq = "2";
+        break;
+      case 3:
+        brownFreq = "3";
+        break;
+      case 4:
+        brownFreq = "4";
+        break;
+      case 5:
+        brownFreq = "5";
+        break;
+      default:
+        brownFreq = "99";
+        break;
+    }
+    code7 = charToInt(array[6]);
+    switch(code7) {
+      case 1:
+        brownInt = "1";
+        break;
+      case 2:
+        brownInt = "2";
+        break;
+      case 3:
+        brownInt = "3";
+        break;
+      case 4:
+        brownInt = "4";
+        break;
+      case 5:
+        brownInt = "5";
+        break;
+      default:
+        brownInt = "99";
+        break;
+    }
+    code8 = charToInt(array[7]);
+    switch(code8) {
+      case 1:
+        face = "1";
+        break;
+      case 2:
+        face = "2";
+        break;
+      case 3:
+        face = "3";
+        break;
+      case 4:
+        face = "4";
+        break;
+      case 5:
+        face = "5";
+        break;
+      default:
+        face = "99";
+        break;
+    }
+    Serial.print("Skin "+skin+
+    "\nEye "+eye+
+    "\nHair "+hair+
+    "\nFreckles "+frec+
+    "\nBurn "+burn+
+    "\nBrown Freq "+brownFreq+
+    "\nBrown Int "+brownInt+
+    "\nFace "+face+
+    "\nUV Index "+String(uvIndex)+
+    "\nRecommended UV exposure time is "+uvTime+" minutes."+"\n");
     //Serial.print(out);
     //out="";
     //Serial.write(code);    //send what has been received
