@@ -3,6 +3,9 @@ int value[10];
 int len = 10;
 char array[10];
 int score = 0;
+int uvTimeInt = -1;
+String uvTimeStr = "";
+String scoreStr = "";
 String skinType = "";
 String out = "";
 String skin = "";
@@ -20,6 +23,7 @@ String uvTime = "";
 int UVOUT = A0; //Output from the sensor
 int REF_3V3 = A1; //3.3V power on the Arduino board
 int uvIndex;
+String uvIndexStr = "";
 
 void setup() {
   Serial.begin(115200);               //initial the Serial
@@ -129,37 +133,37 @@ void loop()
       case 1:
         skin = "0";
         value[2]=0;
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 2:
         skin = "1";
         value[2]=1;
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 3:
         skin = "2";
         value[2]=2;
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 4:
         skin = "2";
         value[2]=2;
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 5:
         skin = "3";
         value[2]=3;
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 6:
         skin = "4";
         value[2]=4;
-        uvIndex = (outputVoltage - 1)*12.5+0.5;
+        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       default:
@@ -349,43 +353,76 @@ void loop()
         value[9]=-99;
         break;
     }
+    
+    uvIndex = (outputVoltage - 1)*12.5+0.5;
+    if(uvIndex<10) {
+      uvIndexStr="0"+String(uvIndex);
+    }
+    else {
+      uvIndexStr=String(uvIndex);
+    }
+    
     for(int k=0; k<len; k++) {
       score+=value[k];
     }
 
     if(score>-1) {
       skinType = "I";
+      if(uvIndex>0) {
+        uvTimeInt = 1.0*67/uvIndex + 0.5;
+      }
     }
     if(score>6) {
       skinType = "II";
+      if(uvIndex>0) {
+        uvTimeInt = 1.0*100/uvIndex + 0.5;
+      }
     }
     if(score>13) {
       skinType = "III";
+      if(uvIndex>0) {
+        uvTimeInt = 1.0*200/uvIndex + 0.5;
+      }
     }
     if(score>20) {
       skinType = "IV";
+      if(uvIndex>0) {
+        uvTimeInt = 1.0*300/uvIndex + 0.5;
+      }
     }
     if(score>27) {
       skinType = "V";
+      if(uvIndex>0) {
+        uvTimeInt = 1.0*400/uvIndex + 0.5;
+      }
     }
     if(score>34) {
       skinType = "VI";
+      if(uvIndex>0) {
+        uvTimeInt = 1.0*500/uvIndex + 0.5;
+      }
     }
     
-    Serial.print("Eye "+eye+
-    "\nHair "+hair+
-    "\nSkin "+skin+
-    "\nFrec "+frec+
-    "\nBurn "+burn+
-    "\nBrownFreq "+brownFreq+
-    "\nBrownInt "+brownInt+
-    "\nFace "+face+
-    "\nTanFreq "+tanFreq+
-    "\nTanHist "+tanHist+
-    "\nScore "+String(score)+
+    if(uvTimeInt<1000) {
+        uvTimeStr = String(uvTimeInt);
+     }
+     if(uvTimeInt<100) {
+        uvTimeStr = "0"+String(uvTimeInt);
+     }
+     if(uvTimeInt<10) {
+        uvTimeStr = "00"+String(uvTimeInt);
+     }
+     if(score <10){
+       scoreStr = "0"+String(score);
+     }
+     else {
+       scoreStr = String(score);
+     }    
+    Serial.print(scoreStr+uvIndexStr+uvTimeStr+"\n"+eye+hair+skin+frec+burn+brownFreq+brownInt+face+tanFreq+tanHist+
     "\nType "+skinType+
     "\nUVI "+String(uvIndex)+
-    "\nRecommended UV exposure time is "+uvTime+" minutes."+"\n");
+    "\nuvTimeInt "+uvTimeStr+
+    "\nRecommended UV exposure time is "+uvTimeStr+" minutes."+"\n");
     //Serial.print(out);
     //out="";
     //Serial.write(code);    //send what has been received
