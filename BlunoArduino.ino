@@ -19,6 +19,7 @@ String face = "";
 String tanFreq = "";
 String tanHist = "";
 String uvTime = "";
+String psiStr = "1";
 
 int UVOUT = A0; //Output from the sensor
 int REF_3V3 = A1; //3.3V power on the Arduino board
@@ -418,7 +419,8 @@ void loop()
      else {
        scoreStr = String(score);
      }    
-    Serial.print(scoreStr+uvIndexStr+uvTimeStr+"\n"+eye+hair+skin+frec+burn+brownFreq+brownInt+face+tanFreq+tanHist+
+    Serial.print(scoreStr+uvIndexStr+uvTimeStr+psiStr+
+    "\n"+eye+hair+skin+frec+burn+brownFreq+brownInt+face+tanFreq+tanHist+
     "\nType "+skinType+
     "\nUVI "+String(uvIndex)+
     "\nuvTimeInt "+uvTimeStr+
