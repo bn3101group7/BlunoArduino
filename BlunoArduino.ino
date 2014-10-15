@@ -19,12 +19,16 @@ String face = "";
 String tanFreq = "";
 String tanHist = "";
 String uvTime = "";
-String psiStr = "1";
+String psiStr = "";
 
-int UVOUT = A0; //Output from the sensor
-int REF_3V3 = A1; //3.3V power on the Arduino board
+int UVOUT = A2; //Output from the sensor
+int REF_3V3 = A3; //3.3V power on the Arduino board
 int uvIndex;
 String uvIndexStr = "";
+
+int ldrResistor = 1;
+float ldrMeasured = 0;
+float ldrVoltage = 0;
 
 void setup() {
   Serial.begin(115200);               //initial the Serial
@@ -68,6 +72,14 @@ void loop()
   score = 0;
   if(Serial.available())
   {
+    ldrMeasured = analogRead(ldrResistor);
+    ldrVoltage = ldrMeasured * (5.0 / 1024); 
+    if(ldrVoltage > 1) {
+      psiStr = "2";
+    }
+    else {
+      psiStr = "1";
+    }
     int uvLevel = averageAnalogRead(UVOUT);
     int refLevel = averageAnalogRead(REF_3V3);
     float outputVoltage = 3.3 / refLevel * uvLevel;
@@ -372,11 +384,17 @@ void loop()
       if(uvIndex>0) {
         uvTimeInt = 1.0*67/uvIndex + 0.5;
       }
+      else {
+        uvTimeInt = 67;
+      }
     }
     if(score>6) {
       skinType = "II";
       if(uvIndex>0) {
         uvTimeInt = 1.0*100/uvIndex + 0.5;
+      }
+      else {
+        uvTimeInt = 100;
       }
     }
     if(score>13) {
@@ -384,11 +402,17 @@ void loop()
       if(uvIndex>0) {
         uvTimeInt = 1.0*200/uvIndex + 0.5;
       }
+      else {
+        uvTimeInt = 200;
+      }
     }
     if(score>20) {
       skinType = "IV";
       if(uvIndex>0) {
         uvTimeInt = 1.0*300/uvIndex + 0.5;
+      }
+      else {
+        uvTimeInt = 300;
       }
     }
     if(score>27) {
@@ -396,11 +420,17 @@ void loop()
       if(uvIndex>0) {
         uvTimeInt = 1.0*400/uvIndex + 0.5;
       }
+      else {
+        uvTimeInt = 400;
+      }
     }
     if(score>34) {
       skinType = "VI";
       if(uvIndex>0) {
         uvTimeInt = 1.0*500/uvIndex + 0.5;
+      }
+      else {
+        uvTimeInt = 500;
       }
     }
     
@@ -425,9 +455,6 @@ void loop()
     "\nUVI "+String(uvIndex)+
     "\nuvTimeInt "+uvTimeStr+
     "\nRecommended UV exposure time is "+uvTimeStr+" minutes."+"\n");
-    //Serial.print(out);
-    //out="";
-    //Serial.write(code);    //send what has been received
   }
 }
 
