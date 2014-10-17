@@ -21,12 +21,12 @@ String tanHist = "";
 String uvTime = "";
 String psiStr = "";
 
-int UVOUT = A2; //Output from the sensor
-int REF_3V3 = A3; //3.3V power on the Arduino board
+int UVOUT = A0; //Output from the sensor
+int REF_3V3 = A1; //3.3V power on the Arduino board
 int uvIndex;
 String uvIndexStr = "";
 
-int ldrResistor = 1;
+int ldrResistor = A2;
 float ldrMeasured = 0;
 float ldrVoltage = 0;
 
