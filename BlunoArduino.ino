@@ -1,7 +1,7 @@
-int code[10];
-int value[10];
-int len = 10;
-char array[10];
+int code[11];
+int value[11];
+int len = 11;
+char array[11];
 int score = 0;
 int uvTimeInt = -1;
 String uvTimeStr = "";
@@ -29,6 +29,11 @@ String uvIndexStr = "";
 int ldrResistor = 1;
 float ldrMeasured = 0;
 float ldrVoltage = 0;
+
+float calibrateLdrMeasured = 0;
+float calibrateLdrVoltage = 0;
+
+float ldrVoltDiff = 0;
 
 void setup() {
   Serial.begin(115200);               //initial the Serial
@@ -72,14 +77,7 @@ void loop()
   score = 0;
   if(Serial.available())
   {
-    ldrMeasured = analogRead(ldrResistor);
-    ldrVoltage = ldrMeasured * (5.0 / 1024); 
-    if(ldrVoltage > 1) {
-      psiStr = "2";
-    }
-    else {
-      psiStr = "1";
-    }
+    
     int uvLevel = averageAnalogRead(UVOUT);
     int refLevel = averageAnalogRead(REF_3V3);
     float outputVoltage = 3.3 / refLevel * uvLevel;
@@ -366,6 +364,23 @@ void loop()
         value[9]=-99;
         break;
     }
+    switch(code[10]) {
+      case 0:
+        calibrateLdrMeasured = analogRead(ldrResistor);
+        calibrateLdrVoltage = calibrateLdrMeasured * (5.0 / 1024);
+        break;
+      case 1:
+        ldrMeasured = analogRead(ldrResistor);
+        ldrVoltage = ldrMeasured * (5.0 / 1024); 
+        ldrVoltDiff = calibrateLdrVoltage - ldrVoltage;
+        break;
+    }
+    if(ldrVoltDiff > 1) {
+      psiStr = "2";
+    }
+    else {
+      psiStr = "1";
+    }
     
     uvIndex = (outputVoltage - 1)*12.5+0.5;
     if(uvIndex<10) {
@@ -450,11 +465,7 @@ void loop()
        scoreStr = String(score);
      }    
     Serial.print(scoreStr+uvIndexStr+uvTimeStr+psiStr+
-    "\n"+eye+hair+skin+frec+burn+brownFreq+brownInt+face+tanFreq+tanHist+
-    "\nType "+skinType+
-    "\nUVI "+String(uvIndex)+
-    "\nuvTimeInt "+uvTimeStr+
-    "\nRecommended UV exposure time is "+uvTimeStr+" minutes."+"\n");
+    "\n"+eye+hair+skin+frec+burn+brownFreq+brownInt+face+tanFreq+tanHist+code[10]);
   }
 }
 
