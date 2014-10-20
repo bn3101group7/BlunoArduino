@@ -375,11 +375,14 @@ void loop()
         ldrVoltDiff = calibrateLdrVoltage - ldrVoltage;
         break;
     }
-    if(ldrVoltDiff > 1) {
+    if(ldrVoltDiff > 0) {
+      psiStr = "1";
+    }
+    else if(ldrVoltDiff > 1) {
       psiStr = "2";
     }
     else {
-      psiStr = "1";
+      psiStr = "9";
     }
     
     uvIndex = (outputVoltage - 1)*12.5+0.5;
