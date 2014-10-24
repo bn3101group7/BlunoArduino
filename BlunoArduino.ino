@@ -81,12 +81,6 @@ void loop()
   int fanOnOff = digitalRead(fanSwitch);
   if(fanOnOff == HIGH) {
     digitalWrite(fanPin, HIGH);
-    if(fanPin == HIGH) {
-      Serial.println("fan on");
-    }
-    else {
-      Serial.println("not high");
-    }
   }
   else {
     digitalWrite(fanPin,LOW);
@@ -390,11 +384,13 @@ void loop()
       case 0:
         calibrateLdrMeasured = analogRead(ldrResistor);
         calibrateLdrVoltage = calibrateLdrMeasured * (5.0 / 1024);
+        Serial.println(calibrateLdrVoltage);
         break;
       case 1:
         ldrMeasured = analogRead(ldrResistor);
         ldrVoltage = ldrMeasured * (5.0 / 1024); 
         ldrVoltDiff = calibrateLdrVoltage - ldrVoltage;
+        Serial.println(ldrVoltDiff);
         break;
     }
     if(ldrVoltDiff > 0) {
