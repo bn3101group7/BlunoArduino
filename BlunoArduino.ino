@@ -26,6 +26,9 @@ int REF_3V3 = A1; //3.3V power on the Arduino board
 int uvIndex;
 String uvIndexStr = "";
 
+int fanSwitch = 4;
+int fanPin = 11;
+
 int ldrResistor = A2;
 float ldrMeasured = 0;
 float ldrVoltage = 0;
@@ -40,6 +43,8 @@ void setup() {
   
   pinMode(UVOUT, INPUT);
   pinMode(REF_3V3, INPUT);
+  pinMode(fanSwitch, INPUT);
+  pinMode(fanPin, OUTPUT);
   
   for(int i=0; i<len; i++) {
     code[i] = 0;
@@ -73,6 +78,19 @@ int charToInt(char c) {
 
 void loop()
 {
+  int fanOnOff = digitalRead(fanSwitch);
+  if(fanOnOff == HIGH) {
+    digitalWrite(fanPin, HIGH);
+    if(fanPin == HIGH) {
+      Serial.println("fan on");
+    }
+    else {
+      Serial.println("not high");
+    }
+  }
+  else {
+    digitalWrite(fanPin,LOW);
+  }
   uvIndex = -1;
   score = 0;
   if(Serial.available())
@@ -125,10 +143,14 @@ void loop()
         value[1]=2;
         break;
       case 4:
+        hair = "2";
+        value[1]=2;
+        break;
+      case 5:
         hair = "3";
         value[1]=3;
         break;
-      case 5:
+      case 6:
         hair = "4";
         value[1]=4;
         break;
