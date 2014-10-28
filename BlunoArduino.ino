@@ -22,7 +22,7 @@ String uvTime = "";
 String psiStr = "";
 
 int UVOUT = A0; //Output from the sensor
-int REF_3V3 = A1; //3.3V power on the Arduino board
+int REF_3V3 = A4; //3.3V power on the Arduino board
 int uvIndex;
 String uvIndexStr = "";
 
@@ -384,13 +384,13 @@ void loop()
       case 0:
         calibrateLdrMeasured = analogRead(ldrResistor);
         calibrateLdrVoltage = calibrateLdrMeasured * (5.0 / 1024);
-        Serial.println(calibrateLdrVoltage);
+//        Serial.println(calibrateLdrVoltage);
         break;
       case 1:
         ldrMeasured = analogRead(ldrResistor);
         ldrVoltage = ldrMeasured * (5.0 / 1024); 
         ldrVoltDiff = calibrateLdrVoltage - ldrVoltage;
-        Serial.println(ldrVoltDiff);
+//        Serial.println(ldrVoltDiff);
         break;
     }
     if(ldrVoltDiff > 0) {
@@ -472,16 +472,16 @@ void loop()
     
     if(uvTimeInt<1000) {
         uvTimeStr = String(uvTimeInt);
-     }
-     if(uvTimeInt<100) {
+    }
+    if(uvTimeInt<100) {
         uvTimeStr = "0"+String(uvTimeInt);
-     }
-     if(uvTimeInt<10) {
+    }
+    if(uvTimeInt<10) {
         uvTimeStr = "00"+String(uvTimeInt);
-     }
-     if(score <10){
+    }
+    if(score <10){
        scoreStr = "0"+String(score);
-     }
+    }
      else {
        scoreStr = String(score);
      }    
