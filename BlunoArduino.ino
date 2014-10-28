@@ -160,37 +160,31 @@ void loop()
       case 1:
         skin = "0";
         value[2]=0;
-        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 2:
         skin = "1";
         value[2]=1;
-        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 3:
         skin = "2";
         value[2]=2;
-        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 4:
         skin = "2";
         value[2]=2;
-        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 5:
         skin = "3";
         value[2]=3;
-        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       case 6:
         skin = "4";
         value[2]=4;
-        //uvIndex = (outputVoltage - 1)*12.5+0.5;
         uvTime = "10";
         break;
       default:
