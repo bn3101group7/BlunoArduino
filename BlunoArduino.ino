@@ -25,6 +25,7 @@ int UVOUT = A0; //Output from the sensor
 int REF_3V3 = A4; //3.3V power on the Arduino board
 int uvIndex;
 String uvIndexStr = "";
+float outputVoltage;
 
 int fanSwitch = 4;
 int fanPin = 11;
@@ -37,6 +38,7 @@ float calibrateLdrMeasured = 0;
 float calibrateLdrVoltage = 0;
 
 float ldrVoltDiff = 0;
+float psi = 0;
 
 void setup() {
   Serial.begin(115200);               //initial the Serial
@@ -81,18 +83,19 @@ void loop()
   int fanOnOff = digitalRead(fanSwitch);
   if(fanOnOff == HIGH) {
     digitalWrite(fanPin, HIGH);
+//    Serial.println("on");
   }
   else {
     digitalWrite(fanPin,LOW);
   }
   uvIndex = -1;
   score = 0;
+  outputVoltage = 0;
   if(Serial.available())
   {
-    
     int uvLevel = averageAnalogRead(UVOUT);
     int refLevel = averageAnalogRead(REF_3V3);
-    float outputVoltage = 3.3 / refLevel * uvLevel;
+    outputVoltage = 3.3 / refLevel * uvLevel;
     Serial.readBytes(array,len);
     for(int j=0; j<len; j++) {
       code[j] = charToInt(array[j]);
@@ -154,9 +157,6 @@ void loop()
         break;
     }
     switch(code[2]) {
-      //take in code1, ask more switch statements for hair color, eye color and tanning ability
-      //take in age group and gender as well
-      //output recommended spf value and duration
       case 1:
         skin = "0";
         value[2]=0;
@@ -378,20 +378,22 @@ void loop()
       case 0:
         calibrateLdrMeasured = analogRead(ldrResistor);
         calibrateLdrVoltage = calibrateLdrMeasured * (5.0 / 1024);
-//        Serial.println(calibrateLdrVoltage);
         break;
       case 1:
         ldrMeasured = analogRead(ldrResistor);
         ldrVoltage = ldrMeasured * (5.0 / 1024); 
         ldrVoltDiff = calibrateLdrVoltage - ldrVoltage;
-//        Serial.println(ldrVoltDiff);
         break;
     }
-    if(ldrVoltDiff > 0) {
-      psiStr = "1";
+    psi = ldrVoltDiff/0.0002;
+    if(psi > 300) {
+      psiStr = "3";
     }
-    else if(ldrVoltDiff > 1) {
+    else if(psi > 100) {
       psiStr = "2";
+    }
+    else if(psi > -1) {
+      psiStr = "1";
     }
     else {
       psiStr = "9";
@@ -478,15 +480,14 @@ void loop()
     }
      else {
        scoreStr = String(score);
-     }    
-    Serial.print(scoreStr+uvIndexStr+uvTimeStr+psiStr+
-    "\n"+eye+hair+skin+frec+burn+brownFreq+brownInt+face+tanFreq+tanHist+code[10]);
+     }
+    Serial.print(scoreStr+uvIndexStr+uvTimeStr+psiStr);
   }
 }
 
 int averageAnalogRead(int pinToRead)
 {
-  byte numberOfReadings = 16;
+  byte numberOfReadings = 8;
   unsigned int runningValue = 0; 
 
   for(int x = 0 ; x < numberOfReadings ; x++)
